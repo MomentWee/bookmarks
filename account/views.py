@@ -56,6 +56,10 @@ def edit(request):
         else:
             messages.error(request, 'Error updating your profile')
     else:
+        try:
+            Profile.objects.get(user=request.user)
+        except Profile.DoesNotExist:
+            Profile.objects.create(user=request.user)
         user_form = UserEditForm(instance=request.user)
         profile_form = ProfileEditForm(instance=request.user.profile)
 
